@@ -1,46 +1,80 @@
-const numButtons = document.querySelectorAll('.numBut');
-const displayResult = document.querySelector('#display');
-const operatorButtons = document.querySelectorAll('.operatorBut'); // reference to all operator buttons
-let operator; // is Operator Button that is chosen by user
-let operatorSelected = false; // this variable will be used to check if an operator is selected or not
-let nums = []; // the value of the numbers that is chosen by user
+const topNumber = document.querySelector(".topNum");
+const topOperator = document.querySelector(".topOp");
+const bottomNumber = document.querySelector(".bottomNum");
+const number = document.querySelectorAll(".num");
+const percentage = document.querySelector(".percent");
+const operators = document.querySelectorAll(".operatorBut");
+const total = document.querySelector(".total");
+const dot = document.querySelector(".dot");
+const clear = document.querySelector(".clear");
+const del = document.querySelector(".del");
 
-numButtons.forEach(function (el) {
-  el.addEventListener('click', function (e) {
-    if (displayResult.innerHTML.split('').length >= 12) {
-      return;
-    }
-    if (displayResult.innerHTML === '0') {
-      displayResult.innerHTML = e.target.innerHTML;
+number.forEach(function (el) {
+  el.addEventListener("click", function () {
+    if (bottomNumber.innerHTML === "0") {
+      bottomNumber.innerHTML = el.innerHTML; // klo angkanya masih kosong, maka gantilah dg apa yg dipencet user aka reasign zero with number being clicked.
     } else {
-      displayResult.innerHTML += e.target.innerHTML;
-    }
-    if (operatorSelected) {
-      displayResult.innerHTML = e.target.innerHTML;
-      operatorSelected = false;
+      bottomNumber.innerHTML += el.innerHTML; // else concatenate the numbers
     }
   });
 });
 
-operatorButtons.forEach(function (el) {
-  el.addEventListener('click', function (e) {
-    nums.push(Number(displayResult.innerHTML));
-    
-    operatorSelected = true;
-
-    if (e.target.innerHTML === "="){
-      calculate(nums, operator)
-    } else {
-      operator = e.target.innerHTML;
-    }
+// when an operator is selected, move the numbers in the bottom to the top and move the operator to the top as well - each on its own div. - 2.10.22
+operators.forEach(function (el) {
+  el.addEventListener("click", function () {
+    topNumber.innerHTML = bottomNumber.innerHTML;
+    topOperator.innerHTML = el.innerHTML;
+    bottomNumber.innerHTML = "0";
   });
 });
 
-function calculate (arr, string){
-  let result = arr.reduce(function(acc, curr){
-    if (operator === "+"){
-      return acc + curr;
-    }
-  })
-  displayResult.innerHTML = result;
-}
+total.addEventListener("click", function () {
+  if (topOperator.innerHTML === "+") {
+    bottomNumber.innerHTML =
+      Number(topNumber.innerHTML) + Number(bottomNumber.innerHTML);
+  }
+
+  if (topOperator.innerHTML === "-") {
+    bottomNumber.innerHTML =
+      Number(topNumber.innerHTML) - Number(bottomNumber.innerHTML);
+  }
+
+  if (topOperator.innerHTML === "*") {
+    bottomNumber.innerHTML =
+      Number(topNumber.innerHTML) * Number(bottomNumber.innerHTML);
+  }
+
+  if (topOperator.innerHTML === "/") {
+    bottomNumber.innerHTML =
+      Number(topNumber.innerHTML) / Number(bottomNumber.innerHTML);
+  }
+});
+
+percentage.addEventListener("click", function () {
+  bottomNumber.innerHTML = Number(bottomNumber.innerHTML) / 100;
+});
+
+del.addEventListener("click", function () {
+  if (bottomNumber.innerHTML.length === 1) {
+    bottomNumber.innerHTML = "0";
+  } else {
+    bottomNumber.innerHTML = bottomNumber.innerHTML.slice(0, -1);
+  }
+});
+
+clear.addEventListener("click", function () {
+  bottomNumber.innerHTML = "0";
+  topNumber.innerHTML = "";
+  topOperator.innerHTML = "";
+});
+
+dot.addEventListener("click", function () {
+  if (bottomNumber.innerHTML.includes(".")) {
+    return; // exit from this callback function
+  }
+  bottomNumber.innerHTML += dot.innerHTML;
+  // better way
+  /* if(!bottomNumber.innerHTML.includes('.')) {
+    bottomNumber.innerHTML += dot.innerHTML
+  } */
+});
