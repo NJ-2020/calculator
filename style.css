@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 * {
   margin: 0;
@@ -19,24 +19,34 @@ body {
   margin: 100px 0;
   width: 100%;
   height: 100%;
-  max-width: 364px;
-  border: 2px solid rgb(163, 159, 152);
-  border-radius: 30px;
+  max-width: 500px;
+  border-radius: 20px;
 }
 
 .container #display {
-  font-size: 47px;
-  font-weight: bold;
   display: flex;
+  flex-direction: column;
   align-items: flex-end;
   justify-content: flex-end;
-  padding: 0 15px 5px;
+  padding: 0 18px 8px;
   width: 100%;
-  height: 80px;
+  height: 110px;
   background-color: gray;
-  color: white;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
+}
+
+.container #display .topDisplay {
+  display: flex;
+  gap: 6px;
+  color: white;
+  font-size: 21px;
+}
+
+.container #display .bottomNum {
+  color: white;
+  font-size: 47px;
+  font-weight: bold;
 }
 
 .container > button {
@@ -60,7 +70,6 @@ body {
   background-color: black;
   width: calc(100% / 2);
 }
-
 
 .container > button:nth-child(16) {
   border-bottom-left-radius: 30px;
